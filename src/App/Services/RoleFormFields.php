@@ -3,7 +3,7 @@
 namespace jeremykenedy\LaravelRoles\App\Services;
 
 use jeremykenedy\LaravelRoles\Traits\RolesAndPermissionsHelpersTrait;
-
+use Illuminate\Support\Facades\Auth;
 class RoleFormFields
 {
     use RolesAndPermissionsHelpersTrait;
@@ -54,10 +54,17 @@ class RoleFormFields
 
         // Get the additional data for the form fields
         $roleFormFieldData = $this->roleFormFieldData();
+        if ( is_null(Auth::user()->service_provider_id) ) {
+            $allPermissions = config('roles.models.permission')::all()->where('type','Admin');
+        } else {
+            $allPermissions= config('roles.models.permission')::all()->where('type','Service provider');
+        }
+
+
 
         return array_merge(
             $fields, [
-                'allPermissions'     => config('roles.models.permission')::all(),
+                'allPermissions'     =>  $allPermissions,
                 'rolePermissionsIds' => $rolePermissionsIds,
             ],
             $roleFormFieldData

@@ -2,6 +2,7 @@
 
 namespace jeremykenedy\LaravelRoles\Traits;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 trait RolesAndPermissionsHelpersTrait
@@ -183,7 +184,11 @@ trait RolesAndPermissionsHelpersTrait
      */
     public function getPermissions()
     {
-        return config('roles.models.permission')::all();
+        if ( is_null(Auth::user()->service_provider_id) ) {
+            return config('roles.models.permission')::all()->where('type','Admin');
+        } else {
+            return config('roles.models.permission')::all()->where('type','Service provider');
+        }
     }
 
     /**
@@ -432,11 +437,11 @@ trait RolesAndPermissionsHelpersTrait
      */
     public function getDashboardData()
     {
-        $roles = $this->getRoles();
+        $roles = config('roles.models.role')::where('service_provider_id',Auth::user()->service_provider_id)->get();
         $permissions = $this->getPermissions();
-        $deletedRoleItems = $this->getDeletedRoles();
+        $deletedRoleItems= config('roles.models.role')::where('service_provider_id',Auth::user()->service_provider_id)->onlyTrashed();
         $deletedPermissionsItems = $this->getDeletedPermissions();
-        $users = $this->getUsers();
+        $users = config('roles.models.defaultUser')::with('roles')->where('service_provider_id',Auth::user()->service_provider_id)->get();
         $sortedRolesWithUsers = $this->getSortedUsersWithRoles($roles, $users);
         $sortedRolesWithPermissionsAndUsers = $this->getSortedRolesWithPermissionsAndUsers($sortedRolesWithUsers, $permissions);
         $sortedPermissionsRolesUsers = $this->getSortedPermissonsWithRolesAndUsers($sortedRolesWithUsers, $permissions, $users);

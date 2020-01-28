@@ -2,6 +2,7 @@
 
 namespace jeremykenedy\LaravelRoles\Models;
 
+use App\ServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use jeremykenedy\LaravelRoles\Contracts\RoleHasRelations as RoleHasRelationsContract;
@@ -43,6 +44,7 @@ class Role extends Model implements RoleHasRelationsContract
         'slug',
         'description',
         'level',
+        'service_provider_id',
     ];
 
     /**
@@ -56,6 +58,7 @@ class Role extends Model implements RoleHasRelationsContract
         'slug'          => 'string',
         'description'   => 'string',
         'level'         => 'integer',
+        'service_provider_id' => 'integer',
         'created_at'    => 'datetime',
         'updated_at'    => 'datetime',
         'deleted_at'    => 'datetime',
@@ -78,4 +81,9 @@ class Role extends Model implements RoleHasRelationsContract
         parent::__construct($attributes);
         $this->table = config('roles.rolesTable');
     }
+
+    public function service_provider() {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
 }

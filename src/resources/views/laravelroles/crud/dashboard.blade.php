@@ -64,14 +64,6 @@
 
         <div class="clearfix mb-4"></div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                @include('laravelroles::laravelroles.tables.permissions-table')
-            </div>
-        </div>
-
-        <div class="clearfix mb-4"></div>
-
         @include('laravelroles::laravelroles.modals.confirm-modal',[
             'formTrigger' => 'confirmDelete',
             'modalClass' => 'danger',

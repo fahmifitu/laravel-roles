@@ -200,6 +200,12 @@
                                 @endif
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ trans('laravelroles::laravelroles.service-provider') }}
+                                <span class="badge badge-pill">
+                                    {!! $item->service_provider['name'] !!}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 {!! trans('laravelroles::laravelroles.cards.role-info-card.created') !!}
                                 <span class="badge badge-pill">
                                     {!! $item->created_at->format(trans('laravelroles::laravelroles.date-format')) !!}

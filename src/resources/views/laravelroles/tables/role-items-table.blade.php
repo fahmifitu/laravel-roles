@@ -22,6 +22,9 @@
                 <th scope="col">
                     {!! trans('laravelroles::laravelroles.roles-table.level') !!}
                 </th>
+                <th scope="col">
+                    {!! trans('laravelroles::laravelroles.service-provider') !!}
+                </th>
                 <th scope="col" class="hidden-xs hidden-sm">
                     {!! trans('laravelroles::laravelroles.roles-table.permissons') !!}
                 </th>
@@ -75,6 +78,14 @@
                             @endif
                             @if($tabletype == 'deleted')
                                 {{ $item->level }}
+                            @endif
+                        </td>
+                        <td>
+                            @if($tabletype == 'normal')
+                                {{ $item['role']->service_provider['name']}}
+                            @endif
+                            @if($tabletype == 'deleted')
+                                {{ $item->service_provider['name']}}
                             @endif
                         </td>
                         <td class="hidden-xs hidden-sm">

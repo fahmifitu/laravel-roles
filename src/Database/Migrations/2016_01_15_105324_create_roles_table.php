@@ -24,6 +24,8 @@ class CreateRolesTable extends Migration
                 $table->string('slug')->unique();
                 $table->string('description')->nullable();
                 $table->integer('level')->default(1);
+                $table->unsignedBigInteger('service_provider_id')->nullable();
+                $table->foreign('service_provider_id')->references('id')->on('service_providers')->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletes();
             });
